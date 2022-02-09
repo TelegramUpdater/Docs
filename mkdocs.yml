@@ -1,6 +1,11 @@
 site_name: Telegram Updater
 site_url: https://telegramupdater.github.io/Docs/
+
 nav:
-  - Home: index.md
-  - About: about.md
+  - Home: "index.md"
+  - "Features Explained":
+      - "Updater Class": "FeaturesExplained/UpdaterClass.md"
+  - "Different Sdks":
+      - "Console app": "DifferentSdks/Console.md"
+
 theme: readthedocs

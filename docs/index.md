@@ -1,17 +1,39 @@
-# Welcome to MkDocs
+# Telegram Updater Documentations
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+Telegram Updater is a .NET package written in C# that helps you receive updates from Telegram Bot Api.
 
-## Commands
+Updater is made to bring simplicity when working with telegram bots in .NET.
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+Updaters uses [Telegram.Bot](https://github.com/TelegramBots/Telegram.Bot) as dependency to work with api. This a framework written on top of Telegram.Bot.
 
-## Project layout
+TelegramUpdater requires you to use **.NET Core 3.1** and above!
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+TelegramUpdater is highly adjustable for any type of common SDKs in .NET
+
+- Normal apps with no hosting  
+- Worker Service
+- ASP .NET app
+- ...
+
+## Example of WorkerService
+
+```csharp
+using WorkerService;
+
+IHost host = Host.CreateDefaultBuilder(args)
+    .ConfigureServices(services =>
+    {
+        services.AddTelegramUpdater(
+            "BOT_TOKEN",
+            default,
+            (builder) => builder
+                .AddMessageHandler<SimpleMessageHandler>()
+        );
+    })
+    .Build();
+
+await host.RunAsync();
+
+```
+
+That's minimum the requirements, but there're a lot of customizations.
