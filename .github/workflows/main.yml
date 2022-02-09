@@ -30,3 +30,4 @@ jobs:
         python-version: '3.9'
     - run: pip install -r requirements.txt
     - run: mkdocs build
+    - run: cat /home/runner/work/Docs/Docs/site/index.html
