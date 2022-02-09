@@ -32,16 +32,11 @@ jobs:
     - run: mkdocs build
     - run: cat /home/runner/work/Docs/Docs/site/index.html
     - run: yes | cp -rf /home/runner/work/Docs/Docs/site/* resources/docs
-    - run: |
-        cd resources/docs
-        git config --global user.email "ir310022@gamil.com"
-        git config --global user.name "From Gh-Actions"
-        git commit -m "Add changes" -a
-        
-    - name: Push changes
-      uses: ad-m/github-push-action@master
+    
+    - name: Commit & Push changes
+      uses: actions-js/push@master
       with:
         github_token: ${{ secrets.TOKEN }}
-        branch: main
-        directory: resources/docs
         repository: TelegramUpdater/TelegramUpdater.github.io
+        directory: resources/docs
+        
