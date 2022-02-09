@@ -22,5 +22,5 @@ jobs:
         path: resources/docs/
         ref: main
 
-    - name: …
-      run: …
+    - name: Test it
+      run: cat resources/docs/README.md
