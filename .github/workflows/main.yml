@@ -1,7 +1,6 @@
-name: Run tests
+name: Build docs
 
-on:
-    workflow_dispatch:
+on: push
   
 jobs:  
   test:
