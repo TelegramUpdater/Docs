@@ -9,3 +9,5 @@ nav:
       - "Console app": "DifferentSdks/Console.md"
 
 theme: readthedocs
+docs_dir: site
+site_dir: docs
