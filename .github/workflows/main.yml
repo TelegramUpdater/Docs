@@ -32,7 +32,7 @@ jobs:
     - run: mkdocs build
     - run: cat /home/runner/work/Docs/Docs/site/index.html
     - run: yes | cp -rf /home/runner/work/Docs/Docs/site/* resources/docs
-    - run:
+    - run: |
         cd resources/docs
         git add *
         git commit -m "updated docs"
