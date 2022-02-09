@@ -1,1 +1,6 @@
 site_name: Telegram Updater
+site_url: https://telegramupdater.github.io/Docs/
+nav:
+  - Home: index.md
+  - About: about.md
+theme: readthedocs
