@@ -43,3 +43,5 @@ jobs:
       with:
         github_token: ${{ secrets.TOKEN }}
         branch: main
+        directory: resources/docs
+        repository: TelegramUpdater.github.io
