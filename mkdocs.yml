@@ -3,6 +3,7 @@ site_url: https://telegramupdater.github.io/Docs/
 
 nav:
   - Home: "index.md"
+  - Zero to hero: "ZeroToHero.md"
   - "Features Explained":
       - "Updater Class": "FeaturesExplained/UpdaterClass.md"
   - "Different Sdks":
