@@ -1,7 +1,6 @@
-name: Run tests
+name: Build docs
 
-on:
-    workflow_dispatch:
+on: push
   
 jobs:  
   test:
@@ -11,32 +10,14 @@ jobs:
     - name: Clone this repository
       uses: actions/checkout@v2
 
-    # This part here is cloning a second repository
-    # While cloning the repository:
-    #   - it clones the repo into the given `path`
-    #   - it checks out the branch defined at `ref`
-    - name: Clone Docs repository
-      uses: actions/checkout@v2
-      with:
-        repository: TelegramUpdater/TelegramUpdater.github.io
-        path: resources/docs/
-        ref: main
-
-    - name: Test it
-      run: cat resources/docs/README.md
-
     - uses: actions/setup-python@v2
       with:
         python-version: '3.9'
     - run: pip install -r requirements.txt
     - run: mkdocs build
-    - run: cat /home/runner/work/Docs/Docs/site/index.html
-    - run: yes | cp -rf /home/runner/work/Docs/Docs/site/* resources/docs
     
     - name: Commit & Push changes
       uses: actions-js/push@master
       with:
         github_token: ${{ secrets.TOKEN }}
-        repository: TelegramUpdater/TelegramUpdater.github.io
-        directory: resources/docs
         
