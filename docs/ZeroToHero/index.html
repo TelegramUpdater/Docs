@@ -57,6 +57,26 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#console-app">Console app</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#install-updater-this-package">Install Updater (This package)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#setup-updater">Setup Updater</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#0-step-zero">0. Step Zero</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#1-step-one">1. Step One</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#2-step-two">2. Step Two</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#step-there">Step There</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#start">Start</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#test-it">Test it</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#full-code">Full Code</a>
+    </li>
+        </ul>
+    </li>
     </ul>
                     </li>
                 </ul>
@@ -161,7 +181,175 @@
 <li>Open file <code>Program.cs</code> into your favorite editor ( i suggest VSCode ), to see the code inside. It should be something like this:</li>
 </ol>
 <p><code>csharp
+   // blah blah blah
    Console.WriteLine("Hello World");</code></p>
+<h2 id="install-updater-this-package">Install <code>Updater</code> (This package)</h2>
+<p>Now in order to connect to the telegram bot api you can use <code>Updater</code>.</p>
+<p>Updater is available in <a href="https://www.nuget.org/packages/TelegramUpdater">Nuget</a>.</p>
+<ol>
+<li>Open a terminal and execute following command to install updater from nuget.</li>
+</ol>
+<p>```cmd</p>
+<blockquote>
+<p>dotnet add package TelegramUpdater
+   ```</p>
+</blockquote>
+<ol>
+<li>The updater should be installed now. You can try referencing it.</li>
+</ol>
+<p><code>csharp
+   using TelegramUpdater;</code></p>
+<p>Run the app to see if it works.</p>
+<h2 id="setup-updater">Setup Updater</h2>
+<p>The most important class of this package is <code>Updater</code>. You can directly create an instance of it but for now we have something better: <code>UpdaterBuilder</code>.</p>
+<p><code>UpdaterBuilder</code> is some kind of helper class to help you create your <code>Updater</code> in an easier way and with some necessary default options.</p>
+<h3 id="0-step-zero">0. Step Zero</h3>
+<p>Creating <code>UpdaterBuilder</code>.</p>
+<ol>
+<li>Reference <code>TelegramUpdater</code></li>
+</ol>
+<p><code>csharp
+   using TelegramUpdater;</code></p>
+<ol>
+<li>Create an instance of <code>UpdaterBuilder</code></li>
+</ol>
+<p><code>csharp
+   var builder = new UpdaterBuilder("BOT_TOKEN")</code></p>
+<p><em>Replace <code>BOT_TOKEN</code> with you own token from step on.</em></p>
+<h3 id="1-step-one">1. Step One</h3>
+<p>Set options.</p>
+<p>Call method <code>StepOne</code> of builder with no parameters to set default options.</p>
+<pre><code class="language-csharp">builder.StepOne();
+</code></pre>
+<blockquote>
+<p>There are a batch of options that you can modify. The method itself is fully documented.</p>
+</blockquote>
+<h3 id="2-step-two">2. Step Two</h3>
+<p>This step is to set an <strong><code>ExceptionHandler</code></strong> which will track exceptions occurred while handling updates.</p>
+<p>Again you can call method <code>StepTwo</code> with no parameters for a default exception handler.</p>
+<pre><code class="language-csharp">builder.StepTwo();
+</code></pre>
+<h3 id="step-there">Step There</h3>
+<p>This step is to set an update handler.</p>
+<p>An update handler has two primary jobs.</p>
+<ol>
+<li>Choose the right update to handle.</li>
+</ol>
+<p>Of course you wanna handle some specified updates, not all of them.</p>
+<p>For instance you may want to handle a <code>Message Update</code> that has a <code>/start</code> command in it as <code>Text</code>.</p>
+<p>In <code>TelegramUpdater</code> we do this using filters.</p>
+<blockquote>
+<p>All filter are child classes of <code>Filter&lt;/T&gt;</code> where <code>T</code> is the update type. Eg: <code>Filter&lt;Message&gt;</code> for <code>Message</code> updates.</p>
+</blockquote>
+<p>There is an static class called <code>FilterCutify</code> which contains a set of ready to use filters for you.</p>
+<p>Here we can use</p>
+<p><code>csharp
+   FilterCutify.OnCommand("start")</code></p>
+<p>to create a filter for text messages like: <code>/start</code>.</p>
+<p>Add following code in your file:</p>
+<p><code>csharp
+   var myFilter = FilterCutify.OnCommand("start");</code></p>
+<p>Your filter is ready.</p>
+<ol>
+<li>Handle matched updates.</li>
+</ol>
+<p>After an update passed your filter, you have to handle it in a suitable way.</p>
+<p>For instance you may want to answer an <code>/start</code> Command with <code>Started</code> as text respond.</p>
+<p>Handling updates are done in callback functions.</p>
+<p>The callback function takes an instance of <code>UpdateContainerAbs&lt;T&gt;</code> as parameter.</p>
+<p><code>T</code> is the update type ( <code>UpdateContainerAbs&lt;Message&gt;</code> for messages. )</p>
+<p>Callback functions are all async and all should return a <code>Task</code>.</p>
+<p>Create a callback function:</p>
+<p><code>csharp
+   static async Task HandleStartMessage(UpdateContainerAbs&lt;Message&gt; updateContainer)
+   {
+      await updateContainer.Response("Started!");
+   }</code></p>
+<p>You need following namespaces.</p>
+<p><code>csharp
+   using Telegram.Bot.Types;
+   using TelegramUpdater.UpdateContainer;</code></p>
+<p>Your callback function is ready.</p>
+<p>Now you're ready to complete <code>StepThere</code>.</p>
+<p>Pass your filter and callback function to the <code>StepThere</code> method.</p>
+<pre><code class="language-csharp">var updater = builder.StepThree(HandleStartMessage, myFilter);
+</code></pre>
+<p><code>StepThere</code> Gives you an instance of <code>Updater</code>.</p>
+<p>Your code should looks like this so far:</p>
+<pre><code class="language-csharp">using TelegramUpdater;
+using Telegram.Bot.Types;
+using TelegramUpdater.UpdateContainer;
+
+var builder = new UpdaterBuilder(&quot;BOT_TOKEN&quot;);
+
+builder.StepOne();
+
+builder.StepTwo();
+
+var myFilter = FilterCutify.OnCommand(&quot;start&quot;);
+
+static async Task HandleStartMessage(UpdateContainerAbs&lt;Message&gt; updateContainer)
+{
+    await updateContainer.Response(&quot;Started!&quot;);
+}
+
+var updater = builder.StepThree(HandleStartMessage, myFilter);
+</code></pre>
+<h3 id="start">Start</h3>
+<p>Now all you need is to start the updater.</p>
+<pre><code class="language-csharp">await updater.Start();
+</code></pre>
+<blockquote>
+<p><code>await</code> keyword is essential!</p>
+</blockquote>
+<h3 id="test-it">Test it</h3>
+<p>Head toward your bot and send <code>/start</code> command and see if it works.</p>
+<h3 id="full-code">Full Code</h3>
+<p>Here is the full code in a compact version.</p>
+<pre><code class="language-csharp">using TelegramUpdater;
+using Telegram.Bot.Types;
+using TelegramUpdater.UpdateContainer;
+
+static async Task HandleStartMessage(UpdateContainerAbs&lt;Message&gt; updateContainer)
+{
+    await updateContainer.Response(&quot;Started!&quot;);
+}
+
+var updater = new UpdaterBuilder(&quot;BOT_TOKEN&quot;)
+    .StepOne()
+    .StepTwo()
+    .StepThree(HandleStartMessage, FilterCutify.OnCommand(&quot;start&quot;));
+
+await updater.Start();
+</code></pre>
+<p>And a version of code without <code>UpdaterBuilder</code></p>
+<pre><code class="language-csharp">using TelegramUpdater;
+using Telegram.Bot.Types;
+using TelegramUpdater.UpdateContainer;
+using Telegram.Bot;
+using TelegramUpdater.UpdateHandlers.SealedHandlers;
+
+static async Task HandleStartMessage(UpdateContainerAbs&lt;Message&gt; updateContainer)
+{
+    await updateContainer.Response(&quot;Started!&quot;);
+}
+
+static Task HandleException(Updater updater, Exception exception)
+{
+    Console.WriteLine(exception);
+    return Task.CompletedTask;
+}
+
+var updater = new Updater(new TelegramBotClient(&quot;BOT_TOKEN&quot;));
+
+updater.AddExceptionHandler&lt;Exception&gt;(HandleException);
+
+updater.AddUpdateHandler(
+    new MessageHandler(
+        HandleStartMessage, FilterCutify.OnCommand(&quot;start&quot;)));
+
+await updater.Start();
+</code></pre>
               
             </div>
           </div>
