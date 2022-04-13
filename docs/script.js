@@ -4,30 +4,39 @@ var mainContent = document.getElementById("mainContents");
 var sidebar = document.getElementById("mySidenav");
 var sidebarHeader = document.getElementById("sidebarHeader");
 var mainGrid = document.getElementById("mainGrid");
+var closeBtn = document.getElementById("closeButton");
 var sidebarOpen = true;
 // Get the offset position of the navbar
-var sticky = header.offsetTop;
 
-mainContent.onscroll = function () { myFunction() };
 window.onresize = reportWindowSize;
 
+var width = window.innerWidth
+    || document.documentElement.clientWidth
+    || document.body.clientWidth;
+if (width <= 800) {
+    switchSmallerScreen()
+}
+else {
+    switchBiggerScreen()
+}
 
 function switchSmallerScreen() {
-    sidebar.style.display = "none";
-    sidebarHeader.style.display = "none";
-    mainGrid.style.gridTemplateColumns = "minmax(400px, 800px)";
-    mainGrid.style.gridTemplateRows = "100vh"
-    mainGrid.style.gridTemplateAreas = '"Main-Screen"';
+    sidebar.classList.add("smaller-screen");
+    sidebarHeader.classList.add("smaller-screen");
+    mainGrid.classList.add("smaller-screen");
+    header.classList.add("smaller-screen");
+    // closeBtn.classList.add("smaller-screen");
+
     sidebarOpen = false;
 }
 
 function switchBiggerScreen() {
-    sidebar.style.display = "block";
-    sidebarHeader.style.display = "block";
-    mainGrid.style.gridTemplateColumns = "300px minmax(100px, 800px)";
-    mainGrid.style.gridTemplateRows = "0.7fr 2.2fr 20px"
-    mainGrid.style.gridTemplateAreas =
-        '"Sidebar-Header Main-Screen" "Footer Main-Screen" "Main-footer Main-footer"';
+    sidebar.classList.remove("smaller-screen");
+    sidebarHeader.classList.remove("smaller-screen");
+    mainGrid.classList.remove("smaller-screen");
+    header.classList.remove("smaller-screen");
+    // closeBtn.classList.remove("smaller-screen");
+
     sidebarOpen = true;
 }
 
@@ -40,19 +49,6 @@ function reportWindowSize() {
     }
     else {
         switchBiggerScreen()
-    }
-
-    header.style.width = String(mainContent.offsetWidth - 75) + "px";
-}
-
-// Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
-function myFunction() {
-    header.style.width = String(mainContent.offsetWidth - 75) + "px";
-
-    if (mainContent.scrollTop > sticky) {
-        header.classList.add("sticky");
-    } else {
-        header.classList.remove("sticky");
     }
 }
 
@@ -68,6 +64,4 @@ function switchSidebar() {
             switchSmallerScreen()
         }
     }
-
-    header.style.width = String(mainContent.offsetWidth - 75) + "px";
 }
