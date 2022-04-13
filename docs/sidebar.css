@@ -1,0 +1,94 @@
+.grid-container {
+    display: grid;
+    grid-auto-columns: 1fr;
+    grid-template-columns: 300px minmax(100px, 800px);
+    grid-template-rows: 0.7fr 2.2fr 20px;
+    justify-content: center;
+    gap: 5px 5px;
+    grid-template-areas:
+        "Sidebar-Header Main-Screen"
+        "Footer Main-Screen"
+        "Main-footer Main-footer";
+    max-height: 100vh;
+}
+
+.sidebar-header {
+    grid-area: Sidebar-Header;
+    text-align: center;
+    padding: 10px;
+    background-color: rgb(54, 54, 54);
+    color: rgb(205, 205, 205);
+}
+
+.sidenav {
+    min-height: 300px;
+    grid-area: Footer;
+    overflow: scroll;
+    background-color: rgb(44, 44, 44);
+    font-size: large;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    /* padding-left: 20px; */
+    font-family: "Code font";
+    overflow-x: hidden;
+}
+
+.sidenav h3 {
+    color: rgb(205, 205, 205);
+    margin-bottom: 10px;
+    margin-left: 20px;
+}
+
+.sidenav h4 {
+    color: rgb(205, 205, 205);
+    margin-bottom: 10px;
+    margin-left: 20px;
+}
+
+.sidenav h5 {
+    color: rgb(205, 205, 205);
+    margin-bottom: 10px;
+    margin-left: 20px;
+}
+
+.sidenav h6 {
+    color: rgb(205, 205, 205);
+    margin-bottom: 10px;
+    margin-left: 20px;
+}
+
+.sidenav a {
+    display: block;
+    color: rgb(205, 205, 205);
+    /* padding-left: 32px; */
+    text-decoration: none;
+    margin: 10px;
+    font-size: medium;
+    margin-left: 20px;
+}
+
+.sidenav a.active {
+    color: rgb(233, 218, 4);
+}
+
+.sidenav a:hover:not(.active) {
+    background-color: #555;
+    color: white;
+}
+
+.sidebar-footer {
+    margin-top: 50px;
+    margin-bottom: 10px;
+    min-height: 0;
+    text-align: center !important;
+}
+
+.sidebar-footer>hr {
+    border: 1px dashed gray;
+}
+
+.Main-footer {
+    grid-area: Main-footer;
+    background-color: rgb(54, 54, 54);
+    min-height: 0;
+}
