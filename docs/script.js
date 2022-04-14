@@ -13,7 +13,7 @@ window.onresize = reportWindowSize;
 var width = window.innerWidth
     || document.documentElement.clientWidth
     || document.body.clientWidth;
-if (width <= 800) {
+if (width <= 720) {
     switchSmallerScreen()
 }
 else {
@@ -44,7 +44,7 @@ function reportWindowSize() {
     var width = window.innerWidth
         || document.documentElement.clientWidth
         || document.body.clientWidth;
-    if (width <= 800) {
+    if (width <= 720) {
         switchSmallerScreen()
     }
     else {
@@ -56,7 +56,7 @@ function switchSidebar() {
     var width = window.innerWidth
         || document.documentElement.clientWidth
         || document.body.clientWidth;
-    if (width <= 800) {
+    if (width <= 720) {
         if (!sidebarOpen) {
             switchBiggerScreen()
         }
